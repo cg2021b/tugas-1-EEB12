@@ -10,14 +10,14 @@ NRP              | Nama
 ## Pilihan Benda 
 Pada tugas ini saya memilih Buku 
 
-### Foto Sudut Pandang Kanan Atas <br>
+### Foto Sudut Pandang Belakang Atas <br>
 ![asset-img](https://github.com/cg2021b/tugas-1-EEB12/blob/master/buku/Buku_BelakangAtas.jpeg)
 
-### Foto Sudut Pandang Kiri Atas <br> 
+### Foto Sudut Pandang Depan Atas <br> 
 ![asset-img](https://github.com/cg2021b/tugas-1-EEB12/blob/master/buku/Buku_DepanAtas.jpeg)
 
-### Foto Sudut Pandang Depan Atas
+### Foto Sudut Pandang Kanan Atas
 ![asset-img](https://github.com/cg2021b/tugas-1-EEB12/blob/master/buku/Buku_KananAtas.jpeg)
 
-### Foto Sudut Pandang Belakang Atas 
+### Foto Sudut Pandang Kiri Atas 
 ![asset-img](https://github.com/cg2021b/tugas-1-EEB12/blob/master/buku/Buku_KiriAtas.jpeg)
