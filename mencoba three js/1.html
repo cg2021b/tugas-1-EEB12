@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Document</title>
+    
+    
+    
+</head>
+<body>
+        
+        <select id="light">
+            <option value="0">Directional Light</option>
+            <option value="1">Ambient Light</option>
+            <option value="2">Point Light</option>
+            <option value="3">Hemisphere Light</option>
+            <option value="4">Spotlight</option>
+    </select>
+    <script type="module">
+        import * as THREE from './three.module.js';
+        import {OrbitControls} from './OrbitControls.js';
+    
+    
+    
+        let scene, camera, renderer, cube ,cone,sphere,mesh,plane,circle,controls,bentuk;
+            
+            
+           let createcontrol = function (){
+            controls = new OrbitControls(camera, renderer.domElement);
+            controls.target.set(0, 5, 0);
+            controls.update();
+        }
+            
+            let createCube = function () {
+                    let geometry = new THREE.BoxGeometry(1,1,1);
+                    let material = new THREE.MeshPhongMaterial({
+                            color: 0x0095DD
+                            });
+                    cube = new THREE.Mesh(geometry,material)
+                    cube.position.x=-3
+                    cube.position.y= 2
+                    scene.add(cube);
+            }
+            
+            let createCone = function () {
+                    const radius =  1;  
+    
+                    const height = 2;  
+    
+                    const radialSegments = 4 ;
+                    let geometry = new THREE.ConeGeometry(radius, height, radialSegments);
+                    // let material = new THREE.MeshBasicMaterial({color:  0xFF0000, wireframe: true});
+                    // let material = new THREE.MeshLambertMaterial({color: 0x0095DD});
+                    let material = new THREE.MeshToonMaterial({color: 0x0095DD});
+                    cone = new THREE.Mesh(geometry,material)
+                    cone.position.x = 2;
+                    cone.position.y = 2;
+                    scene.add(cone);
+            }
+            
+            class CustomSinCurve extends THREE.Curve {
+    
+                    constructor( scale = 1 ) {
+    
+                    super();
+    
+                    this.scale = scale;
+    
+                    }
+                    
+    
+                    getPoint( t, optionalTarget = new THREE.Vector3() ) {
+    
+                    const tx = t * 3 - 1.5;
+                    const ty = Math.sin( 2 * Math.PI * t );
+                    const tz = 0;
+    
+                    return optionalTarget.set( tx, ty, tz ).multiplyScalar( this.scale );
+    
+            }
+    
+            }
+    
+            let createtube = function () {
+    
+                    
+                    const path = new CustomSinCurve( 1 );
+                    const geometry = new THREE.TubeGeometry( path, 10, 0.2, 13, false );
+                    const material = new THREE.MeshBasicMaterial( { color: 0x00ff00, wireframe : true} );
+                    mesh  = new THREE.Mesh( geometry, material );
+                    mesh.position.x=2
+                    mesh.position.y=-1
+                    scene.add( mesh );
+    
+            }
+            let createsphere = function () {
+    
+                        const radius= 1;
+                        const width =32 ;
+                        const height = 16;
+                        const geometry= new THREE.SphereGeometry(radius,width,height);
+                        // let material = new THREE.MeshBasicMaterial({color:  0xFF0000,wireframe : true});
+                        let material = new THREE.MeshPhysicalMaterial({color:  0xFF0000,clearcoat: 1});
+                        
+                        sphere = new THREE.Mesh(geometry,material)
+                        sphere.position.x = -3;
+                        sphere.position.y = -1;
+                        scene.add(sphere);
+
+                }
+            let createbentuk = function () {
+    
+                    const radius= 1;
+                    const width =2 ;
+                    const height = 3;
+                    const geometry= new THREE.SphereGeometry(radius,width,height);
+                    // let material = new THREE.MeshBasicMaterial({color:  0xFF0000,wireframe : true});
+                    let material = new THREE.MeshToonMaterial({color:  0xFF0000,clearcoat: 1});
+                    
+                    bentuk = new THREE.Mesh(geometry,material)
+                    bentuk.position.x = 7;
+                    bentuk.position.y = -1;
+                    scene.add(bentuk);
+    
+            }
+
+            
+            
+            let createplane = function (){
+                    const geometry = new THREE.PlaneGeometry( 1, 1 );
+                    let material = new THREE.MeshPhysicalMaterial({color:  0xFF0000,side: THREE.DoubleSide});
+                    plane = new THREE.Mesh( geometry, material );
+                    plane.position.x=7;
+                    plane.position.y=2;
+                    scene.add( plane );
+            }
+    
+            let lightsChange = function() {
+                const dLight = new THREE.DirectionalLight(0xffffff, 1);
+                dLight.position.set(-10, 15, 50).normalize();
+                const aLight = new THREE.AmbientLight(0xffffff, 1);
+                aLight.position.set(-10, 15, 50);
+                const pLight = new THREE.PointLight(0xffffff, 1, 100);
+                pLight.position.set(-10, 15, 50);
+                const hLight = new THREE.HemisphereLight(0xffffff, 0x0095DD, 1);
+                hLight.position.set(-10, 10, 15);
+                const sLight = new THREE.SpotLight(0xffffff, 1, 75);
+                sLight.position.set(-10, 15, 50);
+    
+                const lights = [dLight, aLight, pLight, hLight, sLight];
+    
+                lights.forEach((obj) => scene.add(obj));
+    
+                lights.forEach((light) => {
+                    light.visible = false;
+                });
+                lights[0].visible = true;
+    
+                const selectedLight = document.getElementById('light');
+                selectedLight.addEventListener('change', (e) => {
+                    const selected = e.target.value;
+                    lights.forEach((light) => {
+                            light.visible = false;
+                    });
+                    lights[selected].visible = true;
+               });
+            };
+    
+        //     let lightsChange = function() {
+        //         const dLight = new THREE.DirectionalLight(0xffffff, 1);
+        //         dLight.position.set(-10, 15, 50).normalize();
+        //         const aLight = new THREE.AmbientLight(0xffffff, 1);
+        //         aLight.position.set(-10, 15, 50);
+        //         const pLight = new THREE.PointLight(0xffffff, 1, 100);
+        //         pLight.position.set(-10, 15, 50);
+        //         const hLight = new THREE.HemisphereLight(0xffffff, 0x0095DD, 1);
+        //         hLight.position.set(-10, 10, 15);
+        //         const sLight = new THREE.SpotLight(0xffffff, 1, 75);
+        //         sLight.position.set(-10, 15, 50);
+    
+                
+        //        scene.add(dLight);
+        //     };
+           
+    
+            // set up the environment - 
+            // initiallize scene, camera, objects and renderer
+            let init = function() {
+                // 1. create the scene
+                scene = new THREE.Scene();
+                scene.background = new THREE.Color(0xababab);
+                
+                // 2. create an locate the camera 
+                
+                camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 
+                            0.1, 1000);
+                camera.position.z = 6;
+                camera.position.x = 1;
+                lightsChange();
+            //     const controls = new OrbitControls(camera, canvas);
+            //     controls.target.set(0, 5, 0);
+            //     controls.update();
+            //     const loader = new THREE.TextureLoader();
+            //         const texture = loader.load('https://threejsfundamentals.org/threejs/resources/images/checker.png');
+            //         texture.wrapS = THREE.RepeatWrapping;
+            //         texture.wrapT = THREE.RepeatWrapping;
+            //         texture.magFilter = THREE.NearestFilter;
+            //         const repeats = planeSize / 2;
+            //         texture.repeat.set(repeats, repeats);
+                
+                // 3. create an locate the object on the scene           
+                createCube();
+                createCone();
+                createsphere();
+                createtube();
+                createplane();
+               createbentuk();
+                // 4. create the renderer     
+               
+                
+                renderer = new THREE.WebGLRenderer();   
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                
+                document.body.appendChild(renderer.domElement);
+                createcontrol();
+              
+              
+            };
+          
+    //         let speed= 0.1;
+            // main animation loop - calls 50-60 in a second.
+    //     function animate() {
+    //             requestAnimationFrame( animate );
+    
+    //             // if (cube.position.x == 1)
+    //             //     cube.position.x -= 0.01;
+    //             // else    
+    //             //     cube.position.x += 0.01;
+                
+    //             cube.rotation.x += 0.01;
+    //             cube.rotation.y += 0.01;
+    //             renderer.render( scene, camera );
+    //         }
+            // animate();
+            let mainLoop = function() {
+              requestAnimationFrame(mainLoop);
+            controls.update()
+            cone.rotation.x += 0.01
+            cone.rotation.y+= 0.01 
+            sphere.rotation.x += 0.01
+            sphere.rotation.y+= 0.01 
+            mesh.rotation.x+=0.01
+            plane.rotation.y+=0.01
+            bentuk.rotation.x+=0.02
+            
+            // if (cube.position.x >=5 || cube.position.x <=-5) speed = -speed;
+            // cube.position.x += speed;
+            renderer.render(scene, camera)
+            
+            
+    
+                cube.rotation.x +=0.01
+                cube.rotation.y +=0.01
+            
+                renderer.render(scene, camera);
+              
+            };
+            
+            ///////////////////////////////////////////////
+            init();
+            mainLoop();
+            // animate();
+    
+    </script>
+</body>
+</html>
+
+
