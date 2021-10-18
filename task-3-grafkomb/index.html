@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas Three JS</title>
+    <style>
+        body {
+            background-color: whitesmoke;
+            text-align: center;
+        }
+
+        canvas {
+            border: 1px solid rgb(177, 177, 177);
+    border-radius: 15px;
+    height: 515px;
+    margin: 20px 20px;
+    overflow: hidden;
+    width: 690px;
+        }
+
+        #color {
+            width:50px; 
+	        height:20px;
+            background: rgb(150, 149, 149);
+        }
+
+        #textt h3, div{
+            margin-left: 30px;
+            display: inline-block;
+        }
+
+    </style>
+    <script src="src/three.min.js"></script>
+    <script src="src/OrbitControls.js"></script>
+    <script src="main.js"></script>
+</head>
+
+<body onload="main()">
+    <div id="textt">
+        <h3>Score: </h3><h3 id="score">0</h3>
+        <h3>Objects: </h3><h3 id="object">5000ms</h3>
+        <h3>Clicked Color: </h3><div id="color"></div>
+    </div>
+</body>
+
+</html>
+
