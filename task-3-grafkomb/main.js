@@ -37,32 +37,7 @@ function main() {
     mainLoop();
 };
 
-function createObject() {
-    console.log("masuk");
-    if (objectsCount < 50) {
-        colorRandom = new THREE.Color();
-        colorRandom.setStyle(colors[Math.floor(Math.random() * colors.length)]);
-        cube = new THREE.Mesh(
-            new THREE.BoxGeometry(1,1,1),
-            new THREE.MeshStandardMaterial({
-                color: colorRandom
-            })
-        );
-        scene.add(cube);
-        cube.position.x = (Math.random() * 40) - 20;
-        cube.position.y = (Math.random() * 40) - 20;
-        cube.position.z = (Math.random() * 40) - 20;
 
-        objectsCount++;
-        console.log(objectsCount);
-        if (time) time -= 100;
-        document.getElementById("object").innerHTML = objectsCount;
-        console.log(time);
-        setTimeout(createObject, time);
-    } else {
-        time = 5000;
-    }
-};
 
 function onMouseMove(event) {
     mouse.x = (event.offsetX / sizes.width) * 2 - 1;
@@ -129,7 +104,32 @@ function onWindowResize() {
     renderer.setSize(sizes.width, sizes.height);
 };
 
+function createObject() {
+    
+    if (objectsCount < 100) {
+        colorRandom = new THREE.Color();
+        colorRandom.setStyle(colors[Math.floor(Math.random() * colors.length)]);
+        cube = new THREE.Mesh(
+            new THREE.BoxGeometry(1,1,1),
+            new THREE.MeshStandardMaterial({
+                color: colorRandom
+            })
+        );
+        scene.add(cube);
+        cube.position.x = (Math.random() * 40) - 20;
+        cube.position.y = (Math.random() * 40) - 20;
+        cube.position.z = (Math.random() * 40) - 20;
 
+        objectsCount++;
+        console.log(objectsCount);
+        if (time) time -= 100;
+        document.getElementById("object").innerHTML = objectsCount;
+        console.log(time);
+        setTimeout(createObject, time);
+    } else {
+        time = 5000;
+    }
+};
 
 function mainLoop() {
     renderer.render(scene, camera, controls);
